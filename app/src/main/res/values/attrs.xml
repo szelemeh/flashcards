@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DeckListItem">
+        <attr name="name" format="string"/>
+<!--     todo: add attribute that will get onClick listeners for the buttons in DeckListItem -->
+    </declare-styleable>
+</resources>
