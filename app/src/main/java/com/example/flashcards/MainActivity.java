@@ -4,29 +4,21 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.room.Room;
-
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.SpannableStringBuilder;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.flashcards.data.AppDatabase;
-import com.example.flashcards.data.entities.Card;
-import com.example.flashcards.data.entities.Deck;
-import com.example.flashcards.views.DeckListItem;
-
-import java.util.ArrayList;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     private DatabaseServices dbService;
     private Toolbar toolbar;
     private LinearLayout deckList;
+    private AppDatabase database;
+    private DeckAdapter deckAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,23 +28,11 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        dbService = new DatabaseServices(this);
-
-        deckList = (LinearLayout) findViewById(R.id.deck_list);
-
-        // TODO: 03-Nov-19 add button for creating a new deck on the header panel,
-        //      which will open dialog where user would be able to create new deck
+        deckAdapter = new DeckAdapter(this, R.id.deck_list);
+        dbService = new DatabaseServices(this, deckAdapter);
+        dbService.loadAllDecks();
 
         // TODO: 03-Nov-19 Make MainActivity scrollable
-        // TODO: 03-Nov-19 load decks from the database and put them in DeckListItems
-    }
-
-    public void refresh() {
-        ArrayList<Deck> decks = dbService.getAllDecks();
-        for(Deck deck : decks) {
-            DeckListItem item = new DeckListItem(this, null);
-            item.setDeckName(deck.deckName);
-        }
     }
 
     @Override
@@ -74,9 +54,10 @@ public class MainActivity extends AppCompatActivity {
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int id) {
-                        Deck newDeck = new Deck(input.getText().toString());
-                        dbService.addDeck(newDeck);
-                        refresh();
+                        String name = input.getText().toString();
+                        if(name.equals(""))return;
+                        dbService.addDeck(name);
+                        dbService.loadAllDecks();
                     }
                 });
 
@@ -88,7 +69,9 @@ public class MainActivity extends AppCompatActivity {
 
                 AlertDialog dialog = builder.create();
                 dialog.show();
-
+                return true;
+            case R.id.action_delete_all:
+                dbService.removeAllDecks();
                 return true;
             // TODO: 08-Nov-19 Add other cases
         }

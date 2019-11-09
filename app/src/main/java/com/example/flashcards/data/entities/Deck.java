@@ -2,9 +2,13 @@ package com.example.flashcards.data.entities;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "decks")
+@Entity(tableName = "decks",
+        indices = {
+        @Index(value = {"id"})
+        })
 public class Deck {
     @PrimaryKey(autoGenerate = true)
     private int id;

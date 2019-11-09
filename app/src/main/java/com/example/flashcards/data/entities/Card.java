@@ -3,12 +3,13 @@ package com.example.flashcards.data.entities;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import java.util.Date;
 
-@Entity(tableName = "cards", foreignKeys = @ForeignKey(entity = Deck.class,
-                                                       parentColumns = "id",
-                                                       childColumns = "deck_id"))
+@Entity(tableName = "cards",
+        foreignKeys = @ForeignKey(entity = Deck.class, parentColumns = "id", childColumns = "deck_id"),
+        indices = {@Index(value = "deck_id")})
 public class Card {
     @PrimaryKey
     private int id;

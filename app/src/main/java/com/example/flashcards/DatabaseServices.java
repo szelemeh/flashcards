@@ -1,52 +1,35 @@
 package com.example.flashcards;
 
 import android.content.Context;
-import android.os.AsyncTask;
-
-import androidx.room.Room;
-import androidx.room.RoomDatabase;
-import androidx.room.migration.Migration;
-
 import com.example.flashcards.data.AppDatabase;
-import com.example.flashcards.data.entities.Deck;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.flashcards.data.BackgroundTask;
 
 public class DatabaseServices {
-    private Context context;
-    private AppDatabase database;
+    private final Context context;
+    private final AppDatabase database;
+    private DeckAdapter deckAdapter;
 
-    public DatabaseServices(Context context) {
+
+    public DatabaseServices(Context context, DeckAdapter deckAdapter) {
         this.context = context;
-
-        database = Room.databaseBuilder(this.context,
-                AppDatabase.class, "FlashCards.db")
-                .fallbackToDestructiveMigration()
-                .build();
+        this.database = AppDatabase.getDatabase(context);
+        this.deckAdapter = deckAdapter;
     }
 
-    public ArrayList<Deck> getAllDecks() {
-        return (ArrayList<Deck>) new GetDecksAsyncTask().execute().get();
-    }
-    private class GetDecksAsyncTask extends AsyncTask<Void, Void, List<Deck>>
-    {
-        @Override
-        protected List<Deck> doInBackground(Void... url) {
-            return database.deckDao().getAll();
-        }
+    public void loadAllDecks() {
+        BackgroundTask bgTask = new BackgroundTask(context, this, deckAdapter);
+        bgTask.execute("load_all_decks");
     }
 
-    public void addDeck(Deck deck) {
-        new AddDeckAsyncTask().execute(deck);
+
+    public void addDeck(String name) {
+        BackgroundTask bgTask = new BackgroundTask(context, this, deckAdapter);
+        bgTask.execute("add_deck", name);
     }
 
-    private class AddDeckAsyncTask extends AsyncTask<Deck, Void, Void>
-    {
-        @Override
-        protected Void doInBackground(Deck... decks) {
-            database.deckDao().insertAll(decks);
-            return null;
-        }
+    public void removeAllDecks(){
+        BackgroundTask bgTask = new BackgroundTask(context, this, deckAdapter);
+        bgTask.execute("nuke_decks");
     }
+
 }

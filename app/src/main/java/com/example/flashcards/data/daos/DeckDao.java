@@ -25,4 +25,7 @@ public interface DeckDao {
 
     @Delete
     void delete(Deck deck);
+
+    @Query("DELETE FROM decks")
+    void nukeDecks();
 }
