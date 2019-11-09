@@ -1,13 +1,10 @@
 package com.example.flashcards.data;
 
 import android.content.Context;
-import android.os.AsyncTask;
-
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
-
 import com.example.flashcards.data.daos.CardDao;
 import com.example.flashcards.data.daos.DeckDao;
 import com.example.flashcards.data.daos.SettingDao;
@@ -15,9 +12,7 @@ import com.example.flashcards.data.entities.Card;
 import com.example.flashcards.data.entities.Deck;
 import com.example.flashcards.data.entities.Setting;
 
-import java.util.ArrayList;
-
-@Database(entities = {Setting.class, Deck.class, Card.class}, version = 3, exportSchema = false)
+@Database(entities = {Setting.class, Deck.class, Card.class}, version = 5, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase INSTANCE;

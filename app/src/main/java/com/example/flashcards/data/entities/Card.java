@@ -11,7 +11,7 @@ import java.util.Date;
         foreignKeys = @ForeignKey(entity = Deck.class, parentColumns = "id", childColumns = "deck_id"),
         indices = {@Index(value = "deck_id")})
 public class Card {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
 
     @ColumnInfo(name = "deck_id")
@@ -26,7 +26,7 @@ public class Card {
     @ColumnInfo(name = "date_time_ready")
     private Date dateTimeReady;
 
-    public Card(int id, int deckId, String frontSide, String backSide, Date dateTimeReady) {
+    public Card(String frontSide, String backSide, int deckId, Date dateTimeReady) {
         this.id = id;
         this.deckId = deckId;
         this.frontSide = frontSide;

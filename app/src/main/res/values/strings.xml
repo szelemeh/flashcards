@@ -11,4 +11,7 @@
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
     <string name="action_delete_all">Delete all</string>
+    <string name="front">Front</string>
+    <string name="back">Back</string>
+    <string name="save">Save</string>
 </resources>

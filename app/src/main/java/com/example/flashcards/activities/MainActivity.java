@@ -1,4 +1,4 @@
-package com.example.flashcards;
+package com.example.flashcards.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -9,15 +9,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
-import com.example.flashcards.data.AppDatabase;
+import com.example.flashcards.data.DeckAdapter;
+import com.example.flashcards.R;
+import com.example.flashcards.data.DatabaseOperation;
 
 public class MainActivity extends AppCompatActivity {
-    private DatabaseServices dbService;
+    private DatabaseOperation dbOperation;
     private Toolbar toolbar;
-    private LinearLayout deckList;
-    private AppDatabase database;
     private DeckAdapter deckAdapter;
 
     @Override
@@ -29,10 +28,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         deckAdapter = new DeckAdapter(this, R.id.deck_list);
-        dbService = new DatabaseServices(this, deckAdapter);
-        dbService.loadAllDecks();
-
-        // TODO: 03-Nov-19 Make MainActivity scrollable
+        dbOperation = new DatabaseOperation(this, deckAdapter);
+        dbOperation.loadAllDecks();
     }
 
     @Override
@@ -56,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int id) {
                         String name = input.getText().toString();
                         if(name.equals(""))return;
-                        dbService.addDeck(name);
-                        dbService.loadAllDecks();
+                        dbOperation.addDeck(name);
+                        dbOperation.loadAllDecks();
                     }
                 });
 
@@ -71,10 +68,12 @@ public class MainActivity extends AppCompatActivity {
                 dialog.show();
                 return true;
             case R.id.action_delete_all:
-                dbService.removeAllDecks();
+                dbOperation.removeAllDecks();
                 return true;
             // TODO: 08-Nov-19 Add other cases
         }
         return true;
     }
+
+
 }

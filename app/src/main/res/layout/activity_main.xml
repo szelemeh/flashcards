@@ -4,34 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".activities.MainActivity">
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar"/>
-
-    <LinearLayout
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:orientation="vertical"
-        android:id="@+id/deck_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:fillViewport="false"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/deck_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
     </LinearLayout>
-
-
-    <!--    <com.example.flashcards.views.DeckListItem-->
-<!--        android:id="@+id/deckListItem2"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.092"-->
-<!--        app:name="Name of the deck" />-->
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

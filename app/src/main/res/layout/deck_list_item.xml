@@ -19,20 +19,26 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/deck_list_item_add"
+            android:id="@+id/deck_list_item_add_card_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add" />
         <Button
-            android:id="@+id/deck_list_item_view"
+            android:id="@+id/deck_list_item_view_all_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/view" />
         <Button
-            android:id="@+id/deck_list_item_practice"
+            android:id="@+id/deck_list_item_practice_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/practice" />
+        <TextView
+            android:id="@+id/deck_list_item_cards_total"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            tools:text="75"/>
 
 
 

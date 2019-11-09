@@ -20,6 +20,9 @@ public interface DeckDao {
     @Query("SELECT * FROM decks WHERE deck_name LIKE :search ")
     List<Deck> findDeckWithName(String search);
 
+    @Query("SELECT COUNT(*) FROM cards WHERE deck_id = (:deckId)")
+    Integer getTotalCardsNumberInDeck(int deckId);
+
     @Insert
     void insertAll(Deck... decks);
 

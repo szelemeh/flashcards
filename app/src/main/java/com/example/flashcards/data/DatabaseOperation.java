@@ -1,19 +1,21 @@
-package com.example.flashcards;
+package com.example.flashcards.data;
 
 import android.content.Context;
-import com.example.flashcards.data.AppDatabase;
-import com.example.flashcards.data.BackgroundTask;
 
-public class DatabaseServices {
+public class DatabaseOperation {
     private final Context context;
     private final AppDatabase database;
     private DeckAdapter deckAdapter;
 
-
-    public DatabaseServices(Context context, DeckAdapter deckAdapter) {
+    public DatabaseOperation(Context context, DeckAdapter deckAdapter) {
         this.context = context;
         this.database = AppDatabase.getDatabase(context);
         this.deckAdapter = deckAdapter;
+    }
+
+    public DatabaseOperation(Context context) {
+        this.context = context;
+        this.database = AppDatabase.getDatabase(context);
     }
 
     public void loadAllDecks() {
@@ -32,4 +34,8 @@ public class DatabaseServices {
         bgTask.execute("nuke_decks");
     }
 
+    public void addCard(String frontText, String backText, String deckId) {
+        BackgroundTask bgTask = new BackgroundTask(context, this, deckAdapter);
+        bgTask.execute("add_card", frontText, backText, deckId);
+    }
 }

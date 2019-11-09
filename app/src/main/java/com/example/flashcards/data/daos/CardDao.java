@@ -22,6 +22,9 @@ public interface CardDao {
 
     @Delete
     void delete(Card card);
+
+    @Query("DELETE FROM cards")
+    void nukeCards();
 }
 
 // TODO: 01-Nov-19 add query that selects cards by the order of date and time for using it with practice activity

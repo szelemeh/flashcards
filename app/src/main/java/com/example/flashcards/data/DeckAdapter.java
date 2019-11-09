@@ -1,4 +1,4 @@
-package com.example.flashcards;
+package com.example.flashcards.data;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,22 +14,23 @@ public class DeckAdapter {
     private Context context;
     private Activity activity;
     private ViewGroup container;
-    private ArrayList<String> list;
+    private ArrayList<Integer> list;
 
     public DeckAdapter(Context context, int listId) {
         this.context = context;
         this.activity = (Activity)context;
         this.container = activity.findViewById(listId);
-        this.list = new ArrayList<String>();
+        this.list = new ArrayList<Integer>();
     }
 
     public void addItems(Deck... decks){
 
         for(Deck deck : decks) {
-            if(!list.contains(deck.deckName)) {
-                DeckListItem item = new DeckListItem(context, null);
+            if(!list.contains(deck.getId()))  { //better change to ids
+                DeckListItem item = new DeckListItem(context, null, deck.getId());
                 item.setDeckName(deck.deckName);
-                list.add(deck.deckName);
+                item.setTotalCardsNumber(deck.totalCardsNumber);
+                list.add(deck.getId());
                 container.addView(item);
             }
         }
