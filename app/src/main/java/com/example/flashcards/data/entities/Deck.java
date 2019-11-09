@@ -6,14 +6,13 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "decks")
 public class Deck {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
 
     @ColumnInfo(name = "deck_name")
     public String deckName;
 
-    public Deck(int id, String deckName) {
-        this.id = id;
+    public Deck(String deckName) {
         this.deckName = deckName;
     }
 

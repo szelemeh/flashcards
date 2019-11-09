@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.example.flashcards.R;
 
-class DeckListItem extends LinearLayout {
+public class DeckListItem extends LinearLayout {
     private Context context;
     private TextView deckName;
 
@@ -29,5 +29,9 @@ class DeckListItem extends LinearLayout {
         this.deckName.setText(array.getString(R.styleable.DeckListItem_name));
 
         array.recycle();
+    }
+
+    public void setDeckName(String newName) {
+        this.deckName.setText(newName);
     }
 }
