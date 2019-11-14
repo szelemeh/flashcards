@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="Name of the deck"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="30sp" />
 
     <LinearLayout
@@ -20,24 +21,26 @@
 
         <Button
             android:id="@+id/deck_list_item_add_card_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add" />
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/ic_add_circle_outline_24px" />
         <Button
             android:id="@+id/deck_list_item_view_all_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/view" />
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/ic_remove_red_eye_24px"
+            android:layout_marginHorizontal="48dp"/>
         <Button
             android:id="@+id/deck_list_item_practice_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/practice" />
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/ic_play_arrow_24px" />
         <TextView
             android:id="@+id/deck_list_item_cards_total"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
             tools:text="75"/>
 
 

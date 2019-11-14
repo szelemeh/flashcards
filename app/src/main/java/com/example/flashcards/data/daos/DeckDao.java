@@ -23,6 +23,9 @@ public interface DeckDao {
     @Query("SELECT COUNT(*) FROM cards WHERE deck_id = (:deckId)")
     Integer getTotalCardsNumberInDeck(int deckId);
 
+    @Query("SELECT COUNT(*) FROM decks")
+    Integer getDecksNumber();
+
     @Insert
     void insertAll(Deck... decks);
 

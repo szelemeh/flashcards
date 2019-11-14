@@ -29,8 +29,11 @@ public class MainActivity extends AppCompatActivity {
 
         deckAdapter = new DeckAdapter(this, R.id.deck_list);
         dbOperation = new DatabaseOperation(this, deckAdapter);
-        dbOperation.loadAllDecks();
+
+        dbOperation.fetchAllDecks();
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -51,10 +54,10 @@ public class MainActivity extends AppCompatActivity {
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int id) {
-                        String name = input.getText().toString();
-                        if(name.equals(""))return;
-                        dbOperation.addDeck(name);
-                        dbOperation.loadAllDecks();
+                        String deckName = input.getText().toString();
+                        if(deckName.equals(""))return;
+                        dbOperation.insertDeck(deckName);
+                        dbOperation.fetchAllDecks();
                     }
                 });
 
@@ -68,12 +71,10 @@ public class MainActivity extends AppCompatActivity {
                 dialog.show();
                 return true;
             case R.id.action_delete_all:
-                dbOperation.removeAllDecks();
+                //dbOperation.removeAllDecks();
                 return true;
             // TODO: 08-Nov-19 Add other cases
         }
         return true;
     }
-
-
 }

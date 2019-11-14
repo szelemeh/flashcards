@@ -30,7 +30,7 @@ public class CardAddActivity extends AppCompatActivity {
             deckId = b.getInt("deckId");
 
         frontSide = findViewById(R.id.front_card_side);
-        backSide = findViewById(R.id.back_side_card);
+        backSide = findViewById(R.id.back_card_side);
         saveCard = findViewById(R.id.save_btn);
 
         DeckAdapter deckAdapter = new DeckAdapter(this, R.id.deck_list);
@@ -40,7 +40,8 @@ public class CardAddActivity extends AppCompatActivity {
     public void saveCard(View view) {
         String frontText = frontSide.getText().toString();
         String backText = backSide.getText().toString();
-        dbOperation.addCard(frontText, backText, Integer.toString(deckId));
+        if(!frontText.equals("") && !backText.equals(""))
+            dbOperation.insertCard(frontText, backText, deckId);
         finish();
     }
 }

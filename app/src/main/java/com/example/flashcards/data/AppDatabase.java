@@ -12,7 +12,7 @@ import com.example.flashcards.data.entities.Card;
 import com.example.flashcards.data.entities.Deck;
 import com.example.flashcards.data.entities.Setting;
 
-@Database(entities = {Setting.class, Deck.class, Card.class}, version = 5, exportSchema = false)
+@Database(entities = {Setting.class, Deck.class, Card.class}, version = 6, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase INSTANCE;

@@ -1,5 +1,4 @@
 package com.example.flashcards.views;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -16,43 +15,42 @@ import androidx.annotation.Nullable;
 import com.example.flashcards.R;
 import com.example.flashcards.activities.CardAddActivity;
 import com.example.flashcards.activities.DeckViewActivity;
+import com.example.flashcards.data.entities.Deck;
 
-public class DeckListItem extends LinearLayout {
+public class DeckItem extends LinearLayout {
     private Context context;
     private TextView deckName;
-    private TextView totalCardsNumber;
+    private TextView cardsNumber;
     private Button addCardBtn;
     private Button viewCardsBtn;
     private Button practiceBtn;
-    private int deckId;
+    private final Deck deck;
 
-    public DeckListItem(final Context context, @Nullable AttributeSet attrs, final int deckId) {
-        super(context, attrs);
+
+    public DeckItem(final Context context, final Deck deck) {
+        super(context);
 
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.deck_list_item, this, true);
+        inflater.inflate(R.layout.deck_item, this, true);
 
-        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.DeckListItem);
-
-        this.deckId = deckId;
-        this.context = context;
+        this.deck = deck;
         this.deckName = findViewById(R.id.deck_list_item_name);
-        this.totalCardsNumber = findViewById(R.id.deck_list_item_cards_total);
+        this.cardsNumber = findViewById(R.id.deck_list_item_cards_total);
+        this.context = context;
         this.addCardBtn = findViewById(R.id.deck_list_item_add_card_btn);
         this.viewCardsBtn = findViewById(R.id.deck_list_item_view_all_btn);
         this.practiceBtn = findViewById(R.id.deck_list_item_practice_btn);
 
-        this.deckName.setText(array.getString(R.styleable.DeckListItem_name));
-
-        array.recycle();
+        setDeckName(deck.deckName);
+        setCardsNumber(deck.totalCardsNumber);
 
         addCardBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, CardAddActivity.class);
                 Bundle b = new Bundle();
-                b.putInt("deckId", deckId);
+                b.putInt("deckId", deck.getId());
                 intent.putExtras(b);
                 context.startActivity(intent);
             }
@@ -63,7 +61,7 @@ public class DeckListItem extends LinearLayout {
             public void onClick(View view) {
                 Intent intent = new Intent(context, DeckViewActivity.class);
                 Bundle b = new Bundle();
-                b.putInt("deckId", deckId);
+                b.putInt("deckId", deck.getId());
                 intent.putExtras(b);
                 context.startActivity(intent);
             }
@@ -74,7 +72,7 @@ public class DeckListItem extends LinearLayout {
         this.deckName.setText(newName);
     }
 
-    public void setTotalCardsNumber(Integer newNumber) {
-        this.totalCardsNumber.setText(String.valueOf(newNumber));
+    public void setCardsNumber(Integer newNumber) {
+        this.cardsNumber.setText(String.valueOf(newNumber));
     }
 }

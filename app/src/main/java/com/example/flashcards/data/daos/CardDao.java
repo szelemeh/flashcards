@@ -17,6 +17,9 @@ public interface CardDao {
     @Query("SELECT * FROM cards WHERE id IN (:cardIDs)")
     List<Card> loadAllByIds(int[] cardIDs);
 
+    @Query("SELECT * FROM cards WHERE deck_id = (:deckId)")
+    List<Card> loadAllByDeckId(int deckId);
+
     @Insert
     void insertAll(Card... cards);
 
