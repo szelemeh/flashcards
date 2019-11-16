@@ -10,7 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-import com.example.flashcards.data.DeckAdapter;
+import com.example.flashcards.data.adapters.DeckAdapter;
 import com.example.flashcards.R;
 import com.example.flashcards.data.DatabaseOperation;
 
@@ -33,7 +33,11 @@ public class MainActivity extends AppCompatActivity {
         dbOperation.fetchAllDecks();
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        dbOperation.fetchAllDecks();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -57,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                         String deckName = input.getText().toString();
                         if(deckName.equals(""))return;
                         dbOperation.insertDeck(deckName);
-                        dbOperation.fetchAllDecks();
+                        onResume();
                     }
                 });
 
@@ -71,9 +75,8 @@ public class MainActivity extends AppCompatActivity {
                 dialog.show();
                 return true;
             case R.id.action_delete_all:
-                //dbOperation.removeAllDecks();
+                dbOperation.removeAllDecks();
                 return true;
-            // TODO: 08-Nov-19 Add other cases
         }
         return true;
     }

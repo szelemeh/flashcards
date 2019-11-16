@@ -1,4 +1,4 @@
-package com.example.flashcards.data;
+package com.example.flashcards.data.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -28,12 +28,11 @@ public class DeckAdapter {
     }
 
     public void addAll(ArrayList<Deck> freshDecks) {
+        container.removeAllViewsInLayout();
+        listOfItems.clear();
         for(Deck freshDeck : freshDecks) {
-            if(freshDeck != null && !listOfIds.contains(freshDeck.getId())){
-                listOfIds.add(freshDeck.getId());
-                listOfItems.add(freshDeck);
-                container.addView(getView(freshDeck));
-            }
+            listOfItems.add(freshDeck);
+            container.addView(getView(freshDeck));
         }
     }
 

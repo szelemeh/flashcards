@@ -1,4 +1,4 @@
-package com.example.flashcards.data;
+package com.example.flashcards.data.background;
 
 public enum OperationType {
     //Deck operations

@@ -1,14 +1,15 @@
-package com.example.flashcards.data;
+package com.example.flashcards.data.background;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 
+import com.example.flashcards.data.AppDatabase;
+import com.example.flashcards.data.adapters.DeckAdapter;
 import com.example.flashcards.data.entities.Card;
 import com.example.flashcards.data.entities.Deck;
 import java.util.ArrayList;
-import java.util.List;
 
 public class BackgroundDeckTransaction extends AsyncTask<BackgroundTaskDetails, Deck, ArrayList<Deck>> {
     private Context context;
@@ -45,8 +46,8 @@ public class BackgroundDeckTransaction extends AsyncTask<BackgroundTaskDetails, 
                 return decks;
 
             case REMOVE_ALL_DECKS:
-                database.deckDao().nukeDecks();
                 database.cardDao().nukeCards();
+                database.deckDao().nukeDecks();
                 adapter.clear();
                 break;
 

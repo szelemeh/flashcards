@@ -1,9 +1,7 @@
-package com.example.flashcards.data;
+package com.example.flashcards.data.background;
 
 import com.example.flashcards.data.entities.Card;
 import com.example.flashcards.data.entities.Deck;
-
-import java.util.ArrayList;
 
 public class BackgroundTaskDetails {
     private OperationType operation; //for all cases

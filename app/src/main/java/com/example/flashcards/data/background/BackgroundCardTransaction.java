@@ -1,14 +1,15 @@
-package com.example.flashcards.data;
+package com.example.flashcards.data.background;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 
+import com.example.flashcards.data.AppDatabase;
+import com.example.flashcards.data.adapters.CardAdapter;
 import com.example.flashcards.data.entities.Card;
-import com.example.flashcards.data.entities.Deck;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class BackgroundCardTransaction extends AsyncTask<BackgroundTaskDetails, Card, ArrayList<Card>> {
     private Context context;

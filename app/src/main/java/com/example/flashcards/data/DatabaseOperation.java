@@ -2,6 +2,13 @@ package com.example.flashcards.data;
 
 import android.content.Context;
 
+import com.example.flashcards.data.adapters.CardAdapter;
+import com.example.flashcards.data.adapters.DeckAdapter;
+import com.example.flashcards.data.background.BackgroundCardTransaction;
+import com.example.flashcards.data.background.BackgroundDeckTransaction;
+import com.example.flashcards.data.background.BackgroundTaskDetails;
+import com.example.flashcards.data.background.BackgroundTaskResponse;
+import com.example.flashcards.data.background.OperationType;
 import com.example.flashcards.data.entities.Card;
 import com.example.flashcards.data.entities.Deck;
 
@@ -50,9 +57,8 @@ public class DatabaseOperation implements BackgroundTaskResponse {
         bgTask.execute(BackgroundTaskDetails.fetchingCardsInDeck(OperationType.FETCH_ALL_CARDS_IN_DECK, deckId));
     }
 
-    public void insertCard(String frontText, String backText, int deckId) {
+    public void insertCard(Card inputCard) {
         BackgroundCardTransaction bgTask = new BackgroundCardTransaction(context, cardAdapter);
-        Card inputCard = new Card(frontText, backText, deckId, new Date());
         bgTask.execute(BackgroundTaskDetails.insertingCard(OperationType.INSERT_CARD, inputCard));
     }
 

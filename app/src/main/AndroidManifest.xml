@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".activities.CardAddActivity"></activity>
+        <activity android:name=".activities.DeckPracticeActivity"></activity>
+        <activity android:name=".activities.CardAddActivity" />
         <activity android:name=".activities.DeckViewActivity" />
         <activity android:name=".activities.MainActivity">
             <intent-filter>

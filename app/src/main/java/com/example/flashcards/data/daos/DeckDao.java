@@ -4,9 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-
 import com.example.flashcards.data.entities.Deck;
-
 import java.util.List;
 
 @Dao
