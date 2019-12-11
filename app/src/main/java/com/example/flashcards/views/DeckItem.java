@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.flashcards.AlertUser;
 import com.example.flashcards.R;
 import com.example.flashcards.activities.CardAddActivity;
 import com.example.flashcards.activities.DeckViewActivity;
@@ -56,6 +57,10 @@ public class DeckItem extends LinearLayout {
         viewCardsBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(deck.totalCardsNumber <= 0) {
+                    AlertUser.makeToast(context, "It's empty!");
+                    return;
+                }
                 Intent intent = new Intent(context, DeckViewActivity.class);
                 Bundle b = new Bundle();
                 b.putInt("deckId", deck.getId());
@@ -63,6 +68,8 @@ public class DeckItem extends LinearLayout {
                 context.startActivity(intent);
             }
         });
+
+
     }
 
     public void setDeckName(String newName) {
