@@ -14,4 +14,5 @@
     <string name="front">Front</string>
     <string name="back">Back</string>
     <string name="save">Save</string>
+    <string name="main_activity_title">All decks</string>
 </resources>

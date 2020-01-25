@@ -28,7 +28,18 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+    //room
     def room_version = "2.2.1"
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    //recyclerView
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+    //cardView
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    //floating action button
+    implementation "com.android.support:design:28.0.0"
 }
+

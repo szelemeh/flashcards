@@ -10,22 +10,14 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar"/>
 
-    <ScrollView
-        android:id="@+id/deck_view_container"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/card_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
-        tools:context=".activities.DeckViewActivity">
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/card_container_deck_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            />
-
-    </ScrollView>
+    </androidx.recyclerview.widget.RecyclerView>
 
 
 

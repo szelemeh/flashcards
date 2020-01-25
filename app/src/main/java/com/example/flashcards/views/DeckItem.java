@@ -33,7 +33,7 @@ public class DeckItem extends LinearLayout {
         inflater.inflate(R.layout.deck_item, this, true);
 
         this.deck = deck;
-        this.deckName = findViewById(R.id.deck_list_item_name);
+        this.deckName = findViewById(R.id.deck_item_name);
         this.cardsNumber = findViewById(R.id.deck_list_item_cards_total);
         this.context = context;
         this.addCardBtn = findViewById(R.id.deck_list_item_add_card_btn);

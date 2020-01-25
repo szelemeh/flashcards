@@ -7,11 +7,12 @@
     android:padding="16dp"
     android:background="@drawable/round_corners"
     android:layout_marginHorizontal="16dp"
-    android:layout_marginTop="16dp">
+    android:layout_marginTop="16dp"
+    android:id="@+id/deck_parent_layout">
 
 
     <TextView
-        android:id="@+id/deck_list_item_name"
+        android:id="@+id/deck_item_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="Name of the deck"

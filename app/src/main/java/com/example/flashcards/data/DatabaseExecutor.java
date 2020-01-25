@@ -3,7 +3,7 @@ package com.example.flashcards.data;
 import android.content.Context;
 
 import com.example.flashcards.data.adapters.CardAdapter;
-import com.example.flashcards.data.adapters.DeckAdapter;
+import com.example.flashcards.data.adapters.DeckRVAdapter;
 import com.example.flashcards.data.background.BackgroundCardTransaction;
 import com.example.flashcards.data.background.BackgroundDeckTransaction;
 import com.example.flashcards.data.background.BackgroundTaskDetails;
@@ -13,19 +13,21 @@ import com.example.flashcards.data.entities.Card;
 import com.example.flashcards.data.entities.Deck;
 
 import java.util.ArrayList;
-import java.util.Date;
 
-public class DatabaseOperation implements BackgroundTaskResponse {
-    private DeckAdapter deckAdapter;
+public class DatabaseExecutor implements BackgroundTaskResponse {
+    private DeckRVAdapter deckAdapter;
     private CardAdapter cardAdapter;
     private Context context;
+    private ArrayList<Deck> actualDecks = new ArrayList<>();
+    private ArrayList<Card> actualCards = new ArrayList<>();
 
-    public DatabaseOperation(Context context, DeckAdapter deckAdapter){
-        this.deckAdapter = deckAdapter;
+
+    public DatabaseExecutor(Context context, DeckRVAdapter adapter){
         this.context = context;
+        this.deckAdapter = adapter;
     }
 
-    public DatabaseOperation(Context context, CardAdapter cardAdapter){
+    public DatabaseExecutor(Context context, CardAdapter cardAdapter){
         this.cardAdapter = cardAdapter;
         this.context = context;
     }
@@ -63,12 +65,12 @@ public class DatabaseOperation implements BackgroundTaskResponse {
     }
 
     @Override
-    public void deliverDecks(ArrayList<Deck> freshDecks) {
-        deckAdapter.addAll(freshDecks);
+    public void deliverDecks(ArrayList<Deck> decks) {
+        deckAdapter.setDecks(decks);
     }
 
     @Override
-    public void deliverCards(ArrayList<Card> freshCards) {
-        cardAdapter.addAll(freshCards);
+    public void deliverCards(ArrayList<Card> cards) {
+        actualCards = cards;
     }
 }

@@ -12,8 +12,7 @@ import android.widget.LinearLayout;
 
 import com.example.flashcards.AlertUser;
 import com.example.flashcards.R;
-import com.example.flashcards.data.DatabaseOperation;
-import com.example.flashcards.data.adapters.DeckAdapter;
+import com.example.flashcards.data.DatabaseExecutor;
 import com.example.flashcards.data.entities.Card;
 import com.example.flashcards.views.CardItem;
 
@@ -22,7 +21,7 @@ public class CardAddActivity extends AppCompatActivity {
     private EditText backSide;
     private Button saveCard;
     private int deckId;
-    private DatabaseOperation dbOperation;
+    private DatabaseExecutor dbOperation;
     private Toolbar toolbar;
     private CardItem cardItem;
     private LinearLayout cardContainer;
@@ -48,8 +47,8 @@ public class CardAddActivity extends AppCompatActivity {
         cardContainer = findViewById(R.id.card_add_container);
         cardContainer.addView(cardItem, 0);
 
-        DeckAdapter deckAdapter = new DeckAdapter(this, R.id.deck_list);
-        dbOperation = new DatabaseOperation(this, deckAdapter);
+        //DeckAdapter deckAdapter = new DeckAdapter(this, R.id.deck_list);
+        //dbOperation = new DatabaseExecutor(this, deckAdapter);
     }
 
     public void saveCard(View view) {

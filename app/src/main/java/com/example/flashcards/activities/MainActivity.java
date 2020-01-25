@@ -4,39 +4,78 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 
+import com.example.flashcards.MockData;
 import com.example.flashcards.data.adapters.DeckAdapter;
 import com.example.flashcards.R;
-import com.example.flashcards.data.DatabaseOperation;
+import com.example.flashcards.data.DatabaseExecutor;
+import com.example.flashcards.data.adapters.DeckRVAdapter;
+import com.example.flashcards.data.adapters.decorators.MarginItemDecoration;
+import com.example.flashcards.data.entities.Deck;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private DatabaseOperation dbOperation;
+    private DatabaseExecutor databaseExec;
     private Toolbar toolbar;
-    private DeckAdapter deckAdapter;
+    private DeckRVAdapter deckAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initToolbar();
+
+        initRecyclerView();
+
+        //initDatabaseExecutor();
+
+        initFloatActionButton();
+
+    }
+
+    private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.main_activity_title);
         setSupportActionBar(toolbar);
+    }
 
-        deckAdapter = new DeckAdapter(this, R.id.deck_list);
-        dbOperation = new DatabaseOperation(this, deckAdapter);
+    private void initDatabaseExecutor() {
+        databaseExec = new DatabaseExecutor(this, deckAdapter);
+        databaseExec.fetchAllDecks();
+    }
 
-        dbOperation.fetchAllDecks();
+    private void initRecyclerView() {
+        RecyclerView recyclerView = findViewById(R.id.deck_recycler_view);
+        deckAdapter = new DeckRVAdapter(this, MockData.getAllDecks());
+        recyclerView.setAdapter(deckAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(new MarginItemDecoration(7));
+
+    }
+
+    private void initFloatActionButton() {
+        FloatingActionButton fab = findViewById(R.id.fab);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        dbOperation.fetchAllDecks();
+
+        //databaseExec.fetchAllDecks();
+        deckAdapter.setDecks(MockData.getAllDecks());
+
     }
 
     @Override
@@ -60,7 +99,10 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int id) {
                         String deckName = input.getText().toString();
                         if(deckName.equals(""))return;
-                        dbOperation.insertDeck(deckName);
+
+                        //databaseExec.insertDeck(deckName);
+                        MockData.addDeck(new Deck(deckName));
+
                         onResume();
                     }
                 });
@@ -75,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 dialog.show();
                 return true;
             case R.id.action_delete_all:
-                dbOperation.removeAllDecks();
+                databaseExec.removeAllDecks();
                 return true;
         }
         return true;
