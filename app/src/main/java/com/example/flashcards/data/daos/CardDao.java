@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.flashcards.data.entities.Card;
 import java.util.List;
@@ -17,8 +18,17 @@ public interface CardDao {
     @Query("SELECT * FROM cards WHERE id IN (:cardIDs)")
     List<Card> loadAllByIds(int[] cardIDs);
 
-    @Query("SELECT * FROM cards WHERE deck_id = (:deckId)")
+    @Query("SELECT * FROM cards WHERE deck_id = (:deckId) AND is_deleted = 0")
     List<Card> loadAllByDeckId(int deckId);
+
+    @Update
+    void update(Card card);
+
+    @Query("UPDATE cards SET is_deleted = 1 WHERE id = :id")
+    void markDeleted(int id);
+
+    @Query("UPDATE cards SET is_deleted = 0 WHERE id = :id")
+    void unmarkDeleted(int id);
 
     @Insert
     void insertAll(Card... cards);

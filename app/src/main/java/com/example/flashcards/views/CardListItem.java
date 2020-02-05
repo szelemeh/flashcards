@@ -30,6 +30,7 @@ public class CardListItem extends RelativeLayout {
 
         this.content = findViewById(R.id.card_list_item_content);
         this.parentLayout = findViewById(R.id.card_list_item_container);
+
     }
 
     private void initInflater() {
@@ -40,8 +41,9 @@ public class CardListItem extends RelativeLayout {
 
     }
 
-    public void setDeck(Card card) {
+    public void setCard(Card card) {
         this.card = card;
+
     }
 
     public RelativeLayout getParentLayout() {
@@ -52,6 +54,10 @@ public class CardListItem extends RelativeLayout {
         isFront = !isFront;
         vibrate();
         this.updateCardContent();
+
+        //test
+        String isDeleted = Boolean.toString(card.isDeleted());
+        content.setText(content.getText()+isDeleted);
 
     }
 

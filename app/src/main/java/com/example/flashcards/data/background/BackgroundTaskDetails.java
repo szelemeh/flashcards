@@ -65,6 +65,12 @@ public class BackgroundTaskDetails {
         return new BackgroundTaskDetails(operation);
     }
 
+    public static BackgroundTaskDetails updatingCard(OperationType operation, Card updatedCard) {
+        return new BackgroundTaskDetails(operation, updatedCard);
+    }
+
+
+
 
 
     public OperationType getOperation() {

@@ -26,12 +26,19 @@ public class Card {
     @ColumnInfo(name = "date_time_ready")
     private Date dateTimeReady;
 
+    @ColumnInfo(name = "date_time_created")
+    private Date dateTimeCreated;
+
+
+    @ColumnInfo(name = "is_deleted", defaultValue = "false")
+    private boolean isDeleted;
+
     public Card(String frontSide, String backSide, int deckId, Date dateTimeReady) {
-        this.id = id;
         this.deckId = deckId;
         this.frontSide = frontSide;
         this.backSide = backSide;
         this.dateTimeReady = dateTimeReady;
+        this.dateTimeCreated = new Date();
     }
 
     public int getId() {
@@ -56,5 +63,25 @@ public class Card {
 
     public void setDateTimeReady(Date dateTimeReady) {
         this.dateTimeReady = dateTimeReady;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void toggleDeleteState() {
+        isDeleted = !isDeleted;
+    }
+
+    public Date getDateTimeCreated() {
+        return dateTimeCreated;
+    }
+
+    public void setDateTimeCreated(Date dateTimeCreated) {
+        this.dateTimeCreated = dateTimeCreated;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 }

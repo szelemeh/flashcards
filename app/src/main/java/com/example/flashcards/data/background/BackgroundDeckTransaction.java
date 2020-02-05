@@ -24,8 +24,8 @@ public class BackgroundDeckTransaction extends AsyncTask<BackgroundTaskDetails, 
     }
 
     @Override
-    protected void onPostExecute(ArrayList<Deck> freshDecks) {
-        if(freshDecks != null && delegate != null)delegate.deliverDecks(freshDecks);
+    protected void onPostExecute(ArrayList<Deck> decks) {
+        if(decks != null && delegate != null)delegate.deliverDecks(decks);
     }
 
 
@@ -39,8 +39,7 @@ public class BackgroundDeckTransaction extends AsyncTask<BackgroundTaskDetails, 
                 break;
 
             case FETCH_ALL_DECKS:
-                ArrayList<Deck> decks = (ArrayList<Deck>) database.deckDao().getAll();
-                return decks;
+                return (ArrayList<Deck>) database.deckDao().getAll();
 
             case REMOVE_ALL_DECKS:
                 database.cardDao().nukeCards();

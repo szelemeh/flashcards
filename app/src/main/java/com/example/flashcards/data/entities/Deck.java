@@ -16,8 +16,6 @@ public class Deck {
     @ColumnInfo(name = "deck_name")
     public String deckName;
 
-    public int totalCardsNumber;
-
     public Deck(String deckName) {
         this.deckName = deckName;
     }

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flashcards.AlertUser;
 import com.example.flashcards.activities.DeckViewActivity;
+import com.example.flashcards.data.entities.Card;
 import com.example.flashcards.data.entities.Deck;
 import com.example.flashcards.views.DeckListItem;
 
@@ -54,6 +55,7 @@ public class DeckRVAdapter extends RecyclerView.Adapter<DeckRVAdapter.ViewHolder
             public void onClick(View v) {
                 Intent intent = new Intent(context, DeckViewActivity.class);
                 intent.putExtra("deckId", item.getDeck().getId());
+                intent.putExtra("deckTitle", item.getDeck().deckName);
                 context.startActivity(intent);
             }
         });
@@ -70,7 +72,10 @@ public class DeckRVAdapter extends RecyclerView.Adapter<DeckRVAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return decks.size();
+        if(decks == null) return 0;
+        else {
+            return decks.size();
+        }
     }
 
 

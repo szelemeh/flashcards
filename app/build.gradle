@@ -39,7 +39,7 @@ dependencies {
     //cardView
     implementation 'androidx.cardview:cardview:1.0.0'
 
-    //floating action button
+    //floating action button + TextInput
     implementation "com.android.support:design:28.0.0"
 }
 

@@ -16,5 +16,7 @@ public enum OperationType {
     INSERT_CARD,
     REMOVE_ALL_CARDS,
     REMOVE_CARD,
-    UPDATE_CARD
+    UPDATE_CARD,
+    MARK_DELETED,
+    UNMARK_DELETED
 }

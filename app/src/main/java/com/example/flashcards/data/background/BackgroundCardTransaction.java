@@ -3,10 +3,7 @@ package com.example.flashcards.data.background;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import androidx.annotation.NonNull;
-
 import com.example.flashcards.data.AppDatabase;
-import com.example.flashcards.data.adapters.CardAdapter;
 import com.example.flashcards.data.entities.Card;
 
 import java.util.ArrayList;
@@ -14,18 +11,16 @@ import java.util.ArrayList;
 public class BackgroundCardTransaction extends AsyncTask<BackgroundTaskDetails, Card, ArrayList<Card>> {
     private Context context;
     private AppDatabase database;
-    private CardAdapter cardAdapter;
     public BackgroundTaskResponse delegate = null;
 
-    public BackgroundCardTransaction(Context context,@NonNull CardAdapter cardAdapter) {
+    public BackgroundCardTransaction(Context context) {
         this.context = context;
         this.database = AppDatabase.getDatabase(context);
-        this.cardAdapter = cardAdapter;
     }
 
     @Override
-    protected void onPostExecute(ArrayList<Card> freshCards) {
-        if(freshCards != null && delegate != null)delegate.deliverCards(freshCards);
+    protected void onPostExecute(ArrayList<Card> cards) {
+        if(cards != null && delegate != null)delegate.deliverCards(cards);
     }
 
 
@@ -34,15 +29,22 @@ public class BackgroundCardTransaction extends AsyncTask<BackgroundTaskDetails, 
         BackgroundTaskDetails details = params[0];
         switch(details.getOperation()) {
             case INSERT_CARD:
-                int toWhichDeck = details.getTargetId();
                 Card inputCard = details.getInputCard();
                 database.cardDao().insertAll(inputCard);
                 break;
 
             case FETCH_ALL_CARDS_IN_DECK:
-                int whatDeck = details.getTargetId();
-                ArrayList<Card> freshCards = (ArrayList<Card>) database.cardDao().loadAllByDeckId(whatDeck);
-                return freshCards;
+                int deckId = details.getTargetId();
+                return (ArrayList<Card>) database.cardDao().loadAllByDeckId(deckId);
+
+            case MARK_DELETED:
+                Card cardToMArk = details.getInputCard();
+                database.cardDao().markDeleted(cardToMArk.getId());
+                break;
+
+            case UNMARK_DELETED:
+                Card cardToUnmark = details.getInputCard();
+                database.cardDao().unmarkDeleted(cardToUnmark.getId());
         }
 
         return null;
