@@ -30,6 +30,7 @@ public class DeckRVAdapter extends RecyclerView.Adapter<DeckRVAdapter.ViewHolder
 
     public void setDecks(ArrayList<Deck> decks) {
         this.decks = decks;
+        notifyDataSetChanged();
     }
 
     @NonNull

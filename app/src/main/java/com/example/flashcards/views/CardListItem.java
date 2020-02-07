@@ -1,12 +1,19 @@
 package com.example.flashcards.views;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.LayoutInflater;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+
+import androidx.cardview.widget.CardView;
 
 import com.example.flashcards.R;
 import com.example.flashcards.data.entities.Card;
@@ -17,6 +24,7 @@ public class CardListItem extends RelativeLayout {
 
     private TextView content;
     private RelativeLayout parentLayout;
+    private CardView externalParent;
 
     private Card card = null;
     private boolean isFront = true;
@@ -30,6 +38,7 @@ public class CardListItem extends RelativeLayout {
 
         this.content = findViewById(R.id.card_list_item_content);
         this.parentLayout = findViewById(R.id.card_list_item_container);
+        this.externalParent = findViewById(R.id.external_parent);
 
     }
 
@@ -53,12 +62,22 @@ public class CardListItem extends RelativeLayout {
     public void flip() {
         isFront = !isFront;
         vibrate();
-        this.updateCardContent();
 
-        //test
-        String isDeleted = Boolean.toString(card.isDeleted());
-        content.setText(content.getText()+isDeleted);
-
+        final ObjectAnimator oa1 = ObjectAnimator.ofFloat(externalParent, "scaleX", 1f, 0f);
+        final ObjectAnimator oa2 = ObjectAnimator.ofFloat(externalParent, "scaleX", 0f, 1f);
+        oa1.setInterpolator(new DecelerateInterpolator());
+        oa2.setInterpolator(new AccelerateDecelerateInterpolator());
+        oa1.setDuration(100);
+        oa2.setDuration(100);
+        oa1.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                updateCardContent();
+                oa2.start();
+            }
+        });
+        oa1.start();
     }
 
     private void vibrate() {

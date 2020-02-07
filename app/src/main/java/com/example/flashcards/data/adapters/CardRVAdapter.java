@@ -33,6 +33,7 @@ public class CardRVAdapter extends RecyclerView.Adapter<CardRVAdapter.ViewHolder
 
     public void setCards(ArrayList<Card> cards) {
         this.cards = cards;
+        notifyDataSetChanged();
     }
 
     public void deleteItem(int position) {

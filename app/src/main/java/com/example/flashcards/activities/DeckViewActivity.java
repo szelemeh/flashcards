@@ -30,7 +30,7 @@ public class DeckViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_deck_view);
+        setContentView(R.layout.activity_deck_view_v1);
 
         initDeckInfo();
 
@@ -41,8 +41,6 @@ public class DeckViewActivity extends AppCompatActivity {
         initDbManager();
 
         initFab();
-
-        dbManager.loadAllCardsInDeck(deckId);
     }
 
     private void initFab() {

@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         deckAdapter = new DeckRVAdapter(this, null);
         recyclerView.setAdapter(deckAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new MarginItemDecoration(7));
+        recyclerView.addItemDecoration(new MarginItemDecoration(2));
 
     }
 
