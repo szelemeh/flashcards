@@ -57,8 +57,8 @@ public class BackgroundTaskDetails {
         return new BackgroundTaskDetails(operation);
     }
 
-    public static BackgroundTaskDetails removingDecks(OperationType operation) {
-        return new BackgroundTaskDetails(operation);
+    public static BackgroundTaskDetails removingDecks(OperationType operation, int deckId) {
+        return new BackgroundTaskDetails(operation, deckId);
     }
 
     public static BackgroundTaskDetails removingCards(OperationType operation) {

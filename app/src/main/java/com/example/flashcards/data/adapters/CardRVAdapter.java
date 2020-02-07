@@ -59,6 +59,7 @@ public class CardRVAdapter extends RecyclerView.Adapter<CardRVAdapter.ViewHolder
             }
 
         });
+
         snackbar.show();
     }
 

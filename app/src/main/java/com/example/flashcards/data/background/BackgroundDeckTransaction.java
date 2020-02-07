@@ -52,6 +52,10 @@ public class BackgroundDeckTransaction extends AsyncTask<BackgroundTaskDetails, 
                 Card inputCard = details.getInputCard();
                 database.cardDao().insertAll(inputCard);
                 break;
+            case REMOVE_DECK:
+                int deckId = details.getTargetId();
+                database.cardDao().deleteDeck(deckId);
+                database.deckDao().delete(deckId);
         }
         return null;
     }

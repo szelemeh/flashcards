@@ -2,6 +2,7 @@ package com.example.flashcards.views;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 
 import com.example.flashcards.R;
@@ -49,6 +50,20 @@ public class AddingCardForm extends RelativeLayout {
             if(!Character.isWhitespace(s.charAt(i))) return false;
         }
         return true;
+    }
+
+    public void clear() {
+        questionInput.getEditText().setText("");
+        answerInput.getEditText().setText("");
+
+        prepareForTheNextEntry();
+    }
+
+    private void prepareForTheNextEntry() {
+        questionInput.getEditText().requestFocus();
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(questionInput.getEditText(), InputMethodManager.SHOW_IMPLICIT);
+
     }
 
 }

@@ -2,6 +2,8 @@ package com.example.flashcards.data;
 
 import android.content.Context;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.example.flashcards.data.adapters.CardRVAdapter;
 import com.example.flashcards.data.adapters.DeckRVAdapter;
 import com.example.flashcards.data.background.BackgroundCardTransaction;
@@ -20,6 +22,8 @@ public class DatabaseManager implements DatabaseManagerInterface, BackgroundTask
     DeckRVAdapter deckRVAdapter = null;
     CardRVAdapter cardRVAdapter = null;
 
+    SwipeRefreshLayout swipeRefresh = null;
+
     public DatabaseManager(Context context, DeckRVAdapter deckRVAdapter) {
         this.context = context;
         this.deckRVAdapter = deckRVAdapter;
@@ -34,6 +38,14 @@ public class DatabaseManager implements DatabaseManagerInterface, BackgroundTask
         this.context = context;
     }
 
+    public SwipeRefreshLayout getSwipeRefresh() {
+        return swipeRefresh;
+    }
+
+    public void setSwipeRefresh(SwipeRefreshLayout swipeRefresh) {
+        this.swipeRefresh = swipeRefresh;
+    }
+
     @Override
     public void addDeck(String deckName) {
         BackgroundDeckTransaction bgTask = new BackgroundDeckTransaction(context, deckRVAdapter);
@@ -45,9 +57,9 @@ public class DatabaseManager implements DatabaseManagerInterface, BackgroundTask
 
     }
 
-    @Override
     public void deleteDeck(int deckId) {
-
+        BackgroundDeckTransaction bgTask = new BackgroundDeckTransaction(context, deckRVAdapter);
+        bgTask.execute(BackgroundTaskDetails.removingDecks(OperationType.REMOVE_DECK, deckId));
     }
 
     @Override
@@ -111,11 +123,15 @@ public class DatabaseManager implements DatabaseManagerInterface, BackgroundTask
     public void deliverDecks(ArrayList<Deck> decks) {
         if(deckRVAdapter == null) throw new NullPointerException("deckRVAdapter is null!");
         deckRVAdapter.setDecks(decks);
+
+        if(swipeRefresh != null)swipeRefresh.setRefreshing(false);
     }
 
     @Override
     public void deliverCards(ArrayList<Card> cards) {
         if(cardRVAdapter == null) throw new NullPointerException("cardRVAdapter is null!");
         cardRVAdapter.setCards(cards);
+
+        if(swipeRefresh != null)swipeRefresh.setRefreshing(false);
     }
 }

@@ -18,4 +18,9 @@
     <string name="undo">Undo?</string>
     <string name="snackbar_text">Undo delete?</string>
     <string name="snackbar_undo">Undo</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="saved_text">Saved!</string>
+    <string name="action_delete_deck">Delete deck</string>
+    <string name="action_rename_deck">Rename</string>
+    <string name="delete_deck_affirm">Delete this deck?</string>
 </resources>

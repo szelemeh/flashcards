@@ -15,7 +15,7 @@ public class Card {
     private int id;
 
     @ColumnInfo(name = "deck_id")
-    private int deckId;
+    private Integer deckId;
 
     @ColumnInfo(name = "front_side")
     public String frontSide;
@@ -49,7 +49,7 @@ public class Card {
         this.id = id;
     }
 
-    public int getDeckId() {
+    public Integer getDeckId() {
         return deckId;
     }
 

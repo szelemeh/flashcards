@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private DeckRVAdapter deckAdapter;
     private DatabaseManager dbManager;
+    private SwipeRefreshLayout swipeRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initToolbar();
+
+        initSwipeRefresh();
 
         initRecyclerView();
 
@@ -42,8 +46,25 @@ public class MainActivity extends AppCompatActivity {
         dbManager.loadAllDecks();
     }
 
+    private void initSwipeRefresh() {
+        swipeRefresh = findViewById(R.id.swipe_refresh);
+        swipeRefresh.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                       refresh();
+                    }
+                }
+        );
+    }
+
+    private void refresh() {
+        dbManager.loadAllDecks();
+    }
+
     private void initDbManager() {
         dbManager = new DatabaseManager(this, deckAdapter);
+        dbManager.setSwipeRefresh(swipeRefresh);
     }
 
     private void initToolbar() {
@@ -68,8 +89,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        dbManager.loadAllDecks();
-
+        refresh();
     }
 
     @Override
@@ -95,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                         if(deckName.equals(""))return;
 
                         dbManager.addDeck(deckName);
-                        onResume();
+                        refresh();
                     }
                 });
 
@@ -107,6 +127,11 @@ public class MainActivity extends AppCompatActivity {
 
                 AlertDialog dialog = builder.create();
                 dialog.show();
+                return true;
+
+            case R.id.action_refresh:
+                swipeRefresh.setRefreshing(true);
+                refresh();
                 return true;
         }
         return true;

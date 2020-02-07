@@ -90,8 +90,7 @@ public class CardAddActivity extends AppCompatActivity {
 
             case R.id.save_card:
                 if (form.isEmpty()){
-                    Toast.makeText(this, "Not working again", Toast.LENGTH_SHORT).show();
-                    return true; //stopping from saving if form is empty
+                    return true;
                 }
 
                 saveCard = item;
@@ -99,8 +98,14 @@ public class CardAddActivity extends AppCompatActivity {
                 String question = form.getQuestion();
                 String answer = form.getAnswer();
                 Card newCard = new Card(question, answer, deckId, new Date());
+
                 dbManager.addCard(newCard);
-                Toast.makeText(this, "Saved "+question+" "+answer, Toast.LENGTH_SHORT).show();
+
+                String savedText = getResources().getString(R.string.saved_text);
+                Toast.makeText(this, savedText, Toast.LENGTH_SHORT).show();
+
+                item.setVisible(true);
+                form.clear();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

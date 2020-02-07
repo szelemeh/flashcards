@@ -27,8 +27,8 @@ public interface DeckDao {
     @Insert
     void insertAll(Deck... decks);
 
-    @Delete
-    void delete(Deck deck);
+    @Query("DELETE FROM decks where id=:id")
+    void delete(int id);
 
     @Query("DELETE FROM decks")
     void nukeDecks();

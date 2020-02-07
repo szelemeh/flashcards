@@ -1,21 +1,29 @@
 package com.example.flashcards.activities;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 import com.example.flashcards.R;
 import com.example.flashcards.SwipeToDeleteCallback;
 import com.example.flashcards.data.DatabaseManager;
 import com.example.flashcards.data.adapters.CardRVAdapter;
 import com.example.flashcards.data.adapters.decorators.MarginItemDecoration;
+import com.example.flashcards.data.entities.Deck;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class DeckViewActivity extends AppCompatActivity {
@@ -26,13 +34,17 @@ public class DeckViewActivity extends AppCompatActivity {
     private DatabaseManager dbManager;
     private FloatingActionButton fab;
     private final Context context = this;
+    private SwipeRefreshLayout swipeRefresh;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_deck_view_v1);
+        setContentView(R.layout.activity_deck_view);
 
         initDeckInfo();
+
+        initSwipeRefresh();
 
         initRecyclerView();
 
@@ -41,6 +53,22 @@ public class DeckViewActivity extends AppCompatActivity {
         initDbManager();
 
         initFab();
+    }
+
+    private void initSwipeRefresh() {
+        swipeRefresh = findViewById(R.id.swipe_refresh);
+        swipeRefresh.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        refresh();
+                    }
+                }
+        );
+    }
+
+    private void refresh() {
+        dbManager.loadAllCardsInDeck(deckId);
     }
 
     private void initFab() {
@@ -58,6 +86,7 @@ public class DeckViewActivity extends AppCompatActivity {
 
     private void initDbManager() {
         dbManager = new DatabaseManager(this, cardAdapter);
+        dbManager.setSwipeRefresh(swipeRefresh);
     }
 
     private void initRecyclerView() {
@@ -83,10 +112,12 @@ public class DeckViewActivity extends AppCompatActivity {
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setElevation(0);
-        if(deckTitle == null) throw new NullPointerException();
+        if(deckTitle == null) throw new NullPointerException("deckTitle cannot be null!");
+
         toolbar.setTitle(deckTitle);
         toolbar.setTitleTextAppearance(this, R.style.Toolbar_TitleText);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -103,4 +134,55 @@ public class DeckViewActivity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.deck_view_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.action_delete_deck:
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.delete_deck_affirm);
+
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int id) {
+                        dbManager.deleteDeck(deckId);
+                        onBackPressed();
+                    }
+                });
+
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                return true;
+
+            case R.id.action_refresh:
+                swipeRefresh.setRefreshing(true);
+                refresh();
+                return true;
+
+            case R.id.action_rename_deck:
+                renameDeck();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void renameDeck() {
+
+    }
+
+
 }
