@@ -38,13 +38,26 @@ public class BackgroundCardTransaction extends AsyncTask<BackgroundTaskDetails, 
                 return (ArrayList<Card>) database.cardDao().loadAllByDeckId(deckId);
 
             case MARK_DELETED:
-                Card cardToMArk = details.getInputCard();
-                database.cardDao().markDeleted(cardToMArk.getId());
+                Card cardToMark = details.getInputCard();
+                database.cardDao().markDeleted(cardToMark.getId());
                 break;
 
             case UNMARK_DELETED:
                 Card cardToUnmark = details.getInputCard();
-                database.cardDao().unmarkDeleted(cardToUnmark.getId());
+                database.cardDao().unmarkDeleted(cardToUnmark.getId(), cardToUnmark.getDeckId());
+                break;
+
+            case UPDATE_CARD_CONTENT:
+                Card changedCard = details.getInputCard();
+                //database.cardDao().updateCardContent(changedCard.getId(), changedCard.getFront(), changedCard.getBack());
+                database.cardDao().update(changedCard);
+                break;
+
+            case REMOVE_CARD:
+                Card card = details.getInputCard();
+                database.cardDao().delete(card);
+                break;
+
         }
 
         return null;

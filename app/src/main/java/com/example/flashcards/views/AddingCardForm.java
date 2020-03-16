@@ -1,12 +1,19 @@
 package com.example.flashcards.views;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 
+import androidx.room.Database;
+
 import com.example.flashcards.R;
+import com.example.flashcards.data.DatabaseManager;
+import com.example.flashcards.data.entities.Card;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.Date;
 
 public class AddingCardForm extends RelativeLayout {
 
@@ -14,17 +21,27 @@ public class AddingCardForm extends RelativeLayout {
     private TextInputLayout questionInput;
     private TextInputLayout answerInput;
 
+    private boolean cardAddedToDatabase = false; //whether a card was already created in this form and added to database
+    private Card card = null;
+    DatabaseManager dbManager;
+    private int deckId;
 
 
-    public AddingCardForm(Context context) {
+
+
+    public AddingCardForm(Context context, int deckId) {
         super(context);
         this.context = context;
+        this.deckId = deckId;
+        dbManager = new DatabaseManager(context);
+
 
         initInflater();
 
         this.questionInput = findViewById(R.id.text_input_front);
         this.answerInput = findViewById(R.id.text_input_back);
 
+        prepareForTheNextEntry();
     }
 
     private void initInflater() {
@@ -64,6 +81,28 @@ public class AddingCardForm extends RelativeLayout {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(questionInput.getEditText(), InputMethodManager.SHOW_IMPLICIT);
 
+    }
+
+    public void save() {
+        if (cardAddedToDatabase) {
+            Card card = getCard();
+            dbManager.updateCardContent(card);
+        } else {
+            dbManager.addCard(getCard());
+            cardAddedToDatabase = true;
+        }
+    }
+
+    private Card getCard() {
+        if (card != null){
+            card.setFront(getQuestion());
+            card.setBack(getAnswer());
+            return card;
+        }
+        else {
+            card = new Card(getQuestion(), getAnswer(), deckId, new Date());
+            return card;
+        }
     }
 
 }

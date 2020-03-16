@@ -61,12 +61,18 @@ public class BackgroundTaskDetails {
         return new BackgroundTaskDetails(operation, deckId);
     }
 
-    public static BackgroundTaskDetails removingCards(OperationType operation) {
-        return new BackgroundTaskDetails(operation);
+    public static BackgroundTaskDetails removingCard(OperationType operation, Card card) {
+        return new BackgroundTaskDetails(operation, card);
     }
 
-    public static BackgroundTaskDetails updatingCard(OperationType operation, Card updatedCard) {
-        return new BackgroundTaskDetails(operation, updatedCard);
+    public static BackgroundTaskDetails updatingCard(OperationType operation, Card changedCard) {
+        return new BackgroundTaskDetails(operation, changedCard);
+    }
+
+    public static BackgroundTaskDetails updatingDeck(OperationType operation, int deckId, String newDeckName) {
+        Deck deck = new Deck(newDeckName);
+        deck.setId(deckId);
+        return new BackgroundTaskDetails(operation, deck);
     }
 
 

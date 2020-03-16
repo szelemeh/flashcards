@@ -32,4 +32,7 @@ public interface DeckDao {
 
     @Query("DELETE FROM decks")
     void nukeDecks();
+
+    @Query("UPDATE decks\n SET deck_name = :deckName WHERE id = :id;")
+    void renameDeck(String deckName, int id);
 }

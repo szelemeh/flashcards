@@ -21,6 +21,6 @@
     <string name="action_refresh">Refresh</string>
     <string name="saved_text">Saved!</string>
     <string name="action_delete_deck">Delete deck</string>
-    <string name="action_rename_deck">Rename</string>
-    <string name="delete_deck_affirm">Delete this deck?</string>
+    <string name="action_rename_deck">Rename deck</string>
+    <string name="delete_deck_confirm">Delete this deck?</string>
 </resources>

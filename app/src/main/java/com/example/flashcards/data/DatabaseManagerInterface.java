@@ -16,10 +16,10 @@ public interface DatabaseManagerInterface {
 
 
     void addCard(Card newCard);
-    void updateCard(Card updatedCard);
+    void updateCardContent(Card changedCard);
     void deleteCard(Card card);
 
-    Card getCard(int cardId);
+    void getCard(int cardId);
     void loadAllCards();
     void loadAllCardsInDeck(int deckId);
 }

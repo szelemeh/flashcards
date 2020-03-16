@@ -1,14 +1,5 @@
 package com.example.flashcards.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,12 +9,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.example.flashcards.R;
 import com.example.flashcards.SwipeToDeleteCallback;
 import com.example.flashcards.data.DatabaseManager;
 import com.example.flashcards.data.adapters.CardRVAdapter;
 import com.example.flashcards.data.adapters.decorators.MarginItemDecoration;
-import com.example.flashcards.data.entities.Deck;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class DeckViewActivity extends AppCompatActivity {
@@ -68,6 +67,7 @@ public class DeckViewActivity extends AppCompatActivity {
     }
 
     private void refresh() {
+        toolbar.setTitle(deckTitle);
         dbManager.loadAllCardsInDeck(deckId);
     }
 
@@ -148,7 +148,7 @@ public class DeckViewActivity extends AppCompatActivity {
             case R.id.action_delete_deck:
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle(R.string.delete_deck_affirm);
+                builder.setTitle(R.string.delete_deck_confirm);
 
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
@@ -181,7 +181,32 @@ public class DeckViewActivity extends AppCompatActivity {
     }
 
     private void renameDeck() {
+        final EditText input = new EditText(this);
+        input.setText(deckTitle);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.action_rename_deck)
+                .setView(input);
 
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int id) {
+                String newDeckName = input.getText().toString();
+                if(newDeckName.equals(""))return;
+
+                dbManager.renameDeck(deckId, newDeckName);
+                deckTitle = newDeckName;
+                refresh();
+            }
+        });
+
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 

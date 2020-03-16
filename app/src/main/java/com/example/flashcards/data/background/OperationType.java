@@ -7,6 +7,7 @@ public enum OperationType {
     REMOVE_ALL_DECKS,
     REMOVE_DECK,
     UPDATE_DECK,
+    RENAME_DECK,
 
     //Card operations
     FETCH_ALL_CARDS_IN_DECK,
@@ -18,5 +19,6 @@ public enum OperationType {
     REMOVE_CARD,
     UPDATE_CARD,
     MARK_DELETED,
-    UNMARK_DELETED
+    UNMARK_DELETED,
+    FETCH_CARD, TEST, UPDATE_CARD_CONTENT;
 }

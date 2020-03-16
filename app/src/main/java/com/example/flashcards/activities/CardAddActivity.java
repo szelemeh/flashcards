@@ -67,7 +67,7 @@ public class CardAddActivity extends AppCompatActivity {
     }
 
     private void initForm() {
-        form = new AddingCardForm(this);
+        form = new AddingCardForm(this, deckId);
         ViewGroup container = findViewById(R.id.form_container);
         container.addView(form);
     }
@@ -93,38 +93,15 @@ public class CardAddActivity extends AppCompatActivity {
                     return true;
                 }
 
-                saveCard = item;
-                item.setVisible(false);
-                String question = form.getQuestion();
-                String answer = form.getAnswer();
-                Card newCard = new Card(question, answer, deckId, new Date());
-
-                dbManager.addCard(newCard);
+                form.save();
 
                 String savedText = getResources().getString(R.string.saved_text);
                 Toast.makeText(this, savedText, Toast.LENGTH_SHORT).show();
 
-                item.setVisible(true);
                 form.clear();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-
         }
     }
-
-//    public void saveCards(View view) {
-//        saveCard = (Button) view;
-//
-//        view.setVisibility(View.GONE);
-//        //String question = form.getQuestion();
-//        //String answer = form.getAnswer();
-//        //Card newCard = new Card(question, answer, deckId, new Date());
-//        //dbManager.addCard(newCard);
-//
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
-//
-//        Toast.makeText(this, "Cards are being saved", Toast.LENGTH_SHORT).show();
-//    }
 }

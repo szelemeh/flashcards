@@ -81,8 +81,9 @@ public class DatabaseManager implements DatabaseManagerInterface, BackgroundTask
     }
 
     @Override
-    public void updateCard(Card updatedCard) {
-
+    public void updateCardContent(Card changedCard) {
+        BackgroundCardTransaction bgTask = new BackgroundCardTransaction(context);
+        bgTask.execute(BackgroundTaskDetails.updatingCard(OperationType.UPDATE_CARD_CONTENT, changedCard));
     }
 
 
@@ -98,13 +99,15 @@ public class DatabaseManager implements DatabaseManagerInterface, BackgroundTask
 
     @Override
     public void deleteCard(Card card) {
-
+        BackgroundCardTransaction bgTask = new BackgroundCardTransaction(context);
+        bgTask.execute(BackgroundTaskDetails.removingCard(OperationType.REMOVE_CARD, card));
     }
 
     @Override
-    public Card getCard(int cardId) {
-        return null;
+    public void getCard(int cardId) {
+
     }
+
 
     @Override
     public void loadAllCards() {
@@ -118,6 +121,11 @@ public class DatabaseManager implements DatabaseManagerInterface, BackgroundTask
         bgTask.execute(BackgroundTaskDetails.fetchingCardsInDeck(OperationType.FETCH_ALL_CARDS_IN_DECK, deckId));
     }
 
+
+    public void renameDeck(int deckId, String newDeckName) {
+        BackgroundDeckTransaction bgTask = new BackgroundDeckTransaction(context, deckRVAdapter);
+        bgTask.execute(BackgroundTaskDetails.updatingDeck(OperationType.RENAME_DECK, deckId, newDeckName));
+    }
 
     @Override
     public void deliverDecks(ArrayList<Deck> decks) {
