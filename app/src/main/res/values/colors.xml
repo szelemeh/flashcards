@@ -7,5 +7,9 @@
     <color name="card_title_color">#1d4d4f</color>
     <color name="buttonColor">#50d890</color>
     <color name="white">@android:color/white</color>
+    <color name="green">#64DD17</color>
+    <color name="yellow">#E7D413</color>
+    <color name="red">#d63447</color>
+
 
 </resources>

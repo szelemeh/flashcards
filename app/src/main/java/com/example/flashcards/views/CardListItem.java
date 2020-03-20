@@ -18,6 +18,8 @@ import androidx.cardview.widget.CardView;
 import com.example.flashcards.R;
 import com.example.flashcards.data.entities.Card;
 
+import java.lang.reflect.Constructor;
+
 public class CardListItem extends RelativeLayout {
 
     private Context context;
@@ -42,17 +44,26 @@ public class CardListItem extends RelativeLayout {
 
     }
 
+    public void resize(int widthDp, int heightDp) {
+        LayoutParams params = (RelativeLayout.LayoutParams)externalParent.getLayoutParams();
+        params.height = Math.round(heightDp * context.getResources().getDisplayMetrics().density);
+        params.width = Math.round(widthDp * context.getResources().getDisplayMetrics().density);
+        externalParent.setLayoutParams(params);
+    }
+
     private void initInflater() {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         assert inflater != null;
         inflater.inflate(R.layout.card_list_item, this, true);
-
     }
 
     public void setCard(Card card) {
         this.card = card;
+    }
 
+    public Card getCard() {
+        return card;
     }
 
     public RelativeLayout getParentLayout() {

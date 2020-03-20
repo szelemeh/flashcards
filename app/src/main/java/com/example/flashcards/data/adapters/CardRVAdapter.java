@@ -2,6 +2,7 @@ package com.example.flashcards.data.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flashcards.R;
+import com.example.flashcards.activities.CardAddActivity;
 import com.example.flashcards.data.DatabaseManager;
 import com.example.flashcards.data.entities.Card;
 import com.example.flashcards.views.CardListItem;
@@ -84,12 +86,29 @@ public class CardRVAdapter extends RecyclerView.Adapter<CardRVAdapter.ViewHolder
         item.setCard(cards.get(position));
         item.refresh();
 
-        RelativeLayout container = item.getParentLayout();
+        final RelativeLayout container = item.getParentLayout();
 
         container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 item.flip();
+            }
+        });
+
+        final Card card = item.getCard();
+
+        container.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View v) {
+                Intent intent = new Intent(context, CardAddActivity.class);
+                intent.putExtra("mode", "editing");
+                intent.putExtra("deckId", card.getDeckId());
+                intent.putExtra("cardId", card.getId());
+                intent.putExtra("front", card.frontSide);
+                intent.putExtra("back", card.backSide);
+                context.startActivity(intent);
+                return true;
             }
         });
     }

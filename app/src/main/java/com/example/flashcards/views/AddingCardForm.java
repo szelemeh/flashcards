@@ -1,8 +1,12 @@
 package com.example.flashcards.views;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 
@@ -21,12 +25,11 @@ public class AddingCardForm extends RelativeLayout {
     private TextInputLayout questionInput;
     private TextInputLayout answerInput;
 
-    private boolean cardAddedToDatabase = false; //whether a card was already created in this form and added to database
     private Card card = null;
     DatabaseManager dbManager;
     private int deckId;
 
-
+    private MenuItem savingToogleView;
 
 
     public AddingCardForm(Context context, int deckId) {
@@ -41,7 +44,26 @@ public class AddingCardForm extends RelativeLayout {
         this.questionInput = findViewById(R.id.text_input_front);
         this.answerInput = findViewById(R.id.text_input_back);
 
+        initEditTextsListeners();
+
         prepareForTheNextEntry();
+    }
+
+    private void initEditTextsListeners() {
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(savingToogleView != null) savingToogleView.setVisible(true);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        };
+        questionInput.getEditText().addTextChangedListener(textWatcher);
+        answerInput.getEditText().addTextChangedListener(textWatcher);
     }
 
     private void initInflater() {
@@ -83,26 +105,12 @@ public class AddingCardForm extends RelativeLayout {
 
     }
 
-    public void save() {
-        if (cardAddedToDatabase) {
-            Card card = getCard();
-            dbManager.updateCardContent(card);
-        } else {
-            dbManager.addCard(getCard());
-            cardAddedToDatabase = true;
-        }
+    public void setContent(String question, String answer) {
+        questionInput.getEditText().setText(question);
+        answerInput.getEditText().setText(answer);
     }
 
-    private Card getCard() {
-        if (card != null){
-            card.setFront(getQuestion());
-            card.setBack(getAnswer());
-            return card;
-        }
-        else {
-            card = new Card(getQuestion(), getAnswer(), deckId, new Date());
-            return card;
-        }
+    public void setSavingToggleView(MenuItem item) {
+        savingToogleView = item;
     }
-
 }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -52,6 +53,21 @@ public class DeckViewActivity extends AppCompatActivity {
         initDbManager();
 
         initFab();
+
+        setOnOnClickListeners();
+    }
+
+    private void setOnOnClickListeners() {
+        Button practice = findViewById(R.id.button_practice);
+        practice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DeckPracticeActivity.class);
+                intent.putExtra("deckId", deckId);
+                intent.putExtra("deckTitle", deckTitle);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initSwipeRefresh() {
@@ -77,6 +93,7 @@ public class DeckViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, CardAddActivity.class);
+                intent.putExtra("mode", "adding");
                 intent.putExtra("deckId", deckId);
                 intent.putExtra("deckTitle", deckTitle);
                 startActivity(intent);
@@ -146,26 +163,7 @@ public class DeckViewActivity extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case R.id.action_delete_deck:
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle(R.string.delete_deck_confirm);
-
-                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int id) {
-                        dbManager.deleteDeck(deckId);
-                        onBackPressed();
-                    }
-                });
-
-                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                deleteDeck();
                 return true;
 
             case R.id.action_refresh:
@@ -178,6 +176,28 @@ public class DeckViewActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void deleteDeck() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.delete_deck_confirm);
+
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int id) {
+                dbManager.deleteDeck(deckId);
+                onBackPressed();
+            }
+        });
+
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void renameDeck() {

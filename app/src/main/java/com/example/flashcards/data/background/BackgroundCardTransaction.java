@@ -49,7 +49,6 @@ public class BackgroundCardTransaction extends AsyncTask<BackgroundTaskDetails, 
 
             case UPDATE_CARD_CONTENT:
                 Card changedCard = details.getInputCard();
-                //database.cardDao().updateCardContent(changedCard.getId(), changedCard.getFront(), changedCard.getBack());
                 database.cardDao().update(changedCard);
                 break;
 
