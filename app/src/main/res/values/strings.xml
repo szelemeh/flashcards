@@ -26,9 +26,10 @@
     <string name="action_go_back">Back</string>
     <string name="got_it">Got it!</string>
     <string name="almost">Almost</string>
-    <string name="not_at_all">Nope...</string>
+    <string name="not_at_all">Nope…</string>
     <string name="mode_adding_card">Adding card</string>
     <string name="mode_editing_card">Editing card</string>
     <string name="unsaved_changes">You have unsaved changes.</string>
     <string name="discard_changes">Discard changes</string>
+    <string name="empty_deck_rv">This list is empty. Create a new deck!</string>
 </resources>

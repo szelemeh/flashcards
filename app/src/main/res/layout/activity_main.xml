@@ -16,20 +16,29 @@
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize">
 
-
-        <androidx.recyclerview.widget.RecyclerView
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/deck_recycler_view">
+            android:layout_height="wrap_content"
+            android:foregroundGravity="center"
+            android:id="@+id/recycler_view_holder">
 
-        </androidx.recyclerview.widget.RecyclerView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/deck_recycler_view">
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/empty_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_deck_rv"
+                android:gravity="center"/>
+
+        </FrameLayout>
 
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

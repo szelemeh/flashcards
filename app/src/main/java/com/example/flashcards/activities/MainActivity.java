@@ -12,7 +12,10 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.example.flashcards.MockData;
 import com.example.flashcards.data.DatabaseManager;
@@ -27,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private DeckRVAdapter deckAdapter;
     private DatabaseManager dbManager;
     private SwipeRefreshLayout swipeRefresh;
+    private TextView emptyListMessage;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void refresh() {
         dbManager.loadAllDecks();
+
+        if(deckAdapter.getItemCount() == 0) {
+            recyclerView.setVisibility(View.GONE);
+            emptyListMessage.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyListMessage.setVisibility(View.GONE);
+        }
     }
 
     private void initDbManager() {
@@ -74,12 +87,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        RecyclerView recyclerView = findViewById(R.id.deck_recycler_view);
+        emptyListMessage = findViewById(R.id.empty_message);
+        recyclerView = findViewById(R.id.deck_recycler_view);
         deckAdapter = new DeckRVAdapter(this, null);
         recyclerView.setAdapter(deckAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new MarginItemDecoration(2));
-
     }
 
     private void initFloatActionButton() {
