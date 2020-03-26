@@ -34,9 +34,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/front"
-                    android:inputType="textEmailAddress"
+                    android:inputType="textAutoComplete"
                     android:textColor="@color/colorPrimaryDark"
-                    android:layout_margin="16dp"/>
+                    android:layout_margin="16dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -55,7 +55,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/back"
-                    android:inputType="text"
+                    android:inputType="textAutoComplete"
                     android:textColor="@color/colorPrimaryDark"
                     android:layout_margin="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flashcards.R;
 import com.example.flashcards.activities.CardAddActivity;
+import com.example.flashcards.activities.DeckViewActivity;
 import com.example.flashcards.data.DatabaseManager;
 import com.example.flashcards.data.entities.Card;
 import com.example.flashcards.views.CardListItem;
@@ -46,6 +47,8 @@ public class CardRVAdapter extends RecyclerView.Adapter<CardRVAdapter.ViewHolder
 
         dbManager.markDeletedCard(recentlyDeletedItem);
 
+        ((DeckViewActivity)context).refresh();
+
         showUndoSnackBar();
     }
 
@@ -70,6 +73,8 @@ public class CardRVAdapter extends RecyclerView.Adapter<CardRVAdapter.ViewHolder
         notifyItemInserted(recentlyDeletedItemPosition);
 
         dbManager.unmarkDeleted(recentlyDeletedItem);
+
+        ((DeckViewActivity)context).refresh();
     }
 
     @NonNull

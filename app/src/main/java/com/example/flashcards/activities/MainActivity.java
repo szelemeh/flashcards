@@ -10,9 +10,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -66,13 +68,20 @@ public class MainActivity extends AppCompatActivity {
     private void refresh() {
         dbManager.loadAllDecks();
 
-        if(deckAdapter.getItemCount() == 0) {
-            recyclerView.setVisibility(View.GONE);
-            emptyListMessage.setVisibility(View.VISIBLE);
-        } else {
-            recyclerView.setVisibility(View.VISIBLE);
-            emptyListMessage.setVisibility(View.GONE);
-        }
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                if (deckAdapter.getItemCount() == 0) {
+                    recyclerView.setVisibility(View.GONE);
+                    emptyListMessage.setVisibility(View.VISIBLE);
+                } else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    emptyListMessage.setVisibility(View.GONE);
+                }
+
+            }
+        },100);
     }
 
     private void initDbManager() {
@@ -117,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.action_add_new_deck:
                 final EditText input = new EditText(this);
+                input.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle(R.string.new_deck)
                         .setView(input);

@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -35,6 +37,8 @@ public class DeckViewActivity extends AppCompatActivity {
     private FloatingActionButton fab;
     private final Context context = this;
     private SwipeRefreshLayout swipeRefresh;
+    private RecyclerView recyclerView;
+    private TextView emptyListMessage;
 
 
     @Override
@@ -82,9 +86,24 @@ public class DeckViewActivity extends AppCompatActivity {
         );
     }
 
-    private void refresh() {
+    public void refresh() {
         toolbar.setTitle(deckTitle);
         dbManager.loadAllCardsInDeck(deckId);
+
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                if (cardAdapter.getItemCount() == 0) {
+                    recyclerView.setVisibility(View.GONE);
+                    emptyListMessage.setVisibility(View.VISIBLE);
+                } else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    emptyListMessage.setVisibility(View.GONE);
+                }
+
+            }
+        },100);
     }
 
     private void initFab() {
@@ -107,7 +126,8 @@ public class DeckViewActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        RecyclerView recyclerView = findViewById(R.id.card_recycler_view);
+        emptyListMessage = findViewById(R.id.empty_message);
+        recyclerView = findViewById(R.id.card_recycler_view);
         cardAdapter = new CardRVAdapter(this, null);
         recyclerView.setAdapter(cardAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -143,7 +163,7 @@ public class DeckViewActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        dbManager.loadAllCardsInDeck(deckId);
+        refresh();
     }
 
     @Override
@@ -202,6 +222,7 @@ public class DeckViewActivity extends AppCompatActivity {
 
     private void renameDeck() {
         final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
         input.setText(deckTitle);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.action_rename_deck)
