@@ -60,6 +60,7 @@ public class CardListItem extends RelativeLayout {
 
     public void setCard(Card card) {
         this.card = card;
+        refresh();
     }
 
     public Card getCard() {

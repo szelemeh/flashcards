@@ -174,6 +174,6 @@ public class CardAddActivity extends AppCompatActivity {
     private void updateCard() {
         Card changedCard = new Card(form.getQuestion(), form.getAnswer(), deckId, new Date());
         changedCard.setId(cardId);
-        dbManager.updateCardContent(changedCard);
+        dbManager.updateCard(changedCard);
     }
 }

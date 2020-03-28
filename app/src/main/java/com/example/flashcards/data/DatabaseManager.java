@@ -81,7 +81,7 @@ public class DatabaseManager implements DatabaseManagerInterface, BackgroundTask
     }
 
     @Override
-    public void updateCardContent(Card changedCard) {
+    public void updateCard(Card changedCard) {
         BackgroundCardTransaction bgTask = new BackgroundCardTransaction(context);
         bgTask.execute(BackgroundTaskDetails.updatingCard(OperationType.UPDATE_CARD_CONTENT, changedCard));
     }

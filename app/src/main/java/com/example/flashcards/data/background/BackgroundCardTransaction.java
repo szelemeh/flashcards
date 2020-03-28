@@ -57,6 +57,9 @@ public class BackgroundCardTransaction extends AsyncTask<BackgroundTaskDetails, 
                 database.cardDao().delete(card);
                 break;
 
+            case FETCH_ALL_CARDS_IN_DECK_FOR_PRACTICE:
+                int forPracticeDeckId = details.getTargetId();
+                return (ArrayList<Card>)database.cardDao().getCardsForPractice(forPracticeDeckId);
         }
 
         return null;

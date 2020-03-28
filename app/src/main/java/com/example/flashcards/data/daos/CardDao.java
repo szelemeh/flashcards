@@ -8,6 +8,8 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.flashcards.data.entities.Card;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Dao
@@ -42,14 +44,15 @@ public interface CardDao {
     @Query("UPDATE cards SET is_deleted = 1, deck_id = NULL WHERE deck_id = :id")
     void deleteDeck(int id);
 
-    @Query("UPDATE cards SET front_side = :front, back_side = :back WHERE id = :id")
-    void updateCardContent(int id, String front, String back);
-
     @Query("SELECT * FROM cards WHERE id = :cardId")
     Card getCard(int cardId);
 
-    @Query("UPDATE cards SET front_side = 'XXX' WHERE id = :id")
-    void test(int id);
+    @Query("SELECT * \n" +
+            "FROM cards c\n" +
+            "WHERE deck_id = :deckId AND\n" +
+            "    date_time_ready <= date('now')" +
+            "ORDER BY datetime(date_time_ready) DESC")
+    List<Card> getCardsForPractice(int deckId);
 }
 
 // TODO: 01-Nov-19 add query that selects cards by the order of date and time for using it with practice activity

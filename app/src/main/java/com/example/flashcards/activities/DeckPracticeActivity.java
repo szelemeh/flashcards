@@ -1,34 +1,32 @@
 package com.example.flashcards.activities;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
+import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.example.flashcards.AlertUser;
 import com.example.flashcards.R;
-import com.example.flashcards.data.adapters.DeckRVAdapter;
-import com.example.flashcards.data.adapters.decorators.MarginItemDecoration;
-import com.example.flashcards.data.entities.Deck;
+import com.example.flashcards.business.PracticeController;
+import com.example.flashcards.data.entities.Card;
 import com.example.flashcards.views.CardListItem;
 
-import java.util.ArrayList;
-
 public class DeckPracticeActivity extends AppCompatActivity {
+    private Context thisContext = this;
 
     private int deckId;
     private String deckTitle;
     private Toolbar toolbar;
     private RelativeLayout parentOfCardListItem;
     private CardListItem cardListItem;
+    private PracticeController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +38,62 @@ public class DeckPracticeActivity extends AppCompatActivity {
         initToolbar();
 
         initCardListItem();
+
+        initPracticeController();
+
+
+    }
+
+    private void initPracticeController() {
+        controller = new PracticeController(this, deckId);
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                cardListItem.setCard(controller.getCardCurrent());
+            }
+        },30);
+
+        Button lowQualityReply = findViewById(R.id.buttom_low_quality_reply);
+        Button mediumQualityReply = findViewById(R.id.buttom_medium_quality_reply);
+        Button highQualityReply = findViewById(R.id.buttom_high_quality_reply);
+
+        lowQualityReply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Card newCard = controller.lowQualityReply();
+                if(newCard == null){
+                    controller.finishPractice();
+                    AlertUser.makeToast(thisContext, "Finished Practice");
+                }
+                cardListItem.setCard(newCard);
+            }
+        });
+
+        mediumQualityReply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Card newCard = controller.mediumQualityReply();
+                if(newCard == null){
+                    controller.finishPractice();
+                    AlertUser.makeToast(thisContext, "Finished Practice");
+                }
+                cardListItem.setCard(newCard);
+
+            }
+        });
+
+        highQualityReply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Card newCard = controller.highQualityReply();
+                if(newCard == null){
+                    controller.finishPractice();
+                    AlertUser.makeToast(thisContext, "Finished Practice");
+                }
+                cardListItem.setCard(newCard);
+
+            }
+        });
     }
 
     private void initCardListItem() {
@@ -47,7 +101,6 @@ public class DeckPracticeActivity extends AppCompatActivity {
         cardListItem.resize(350, 400);
         parentOfCardListItem = findViewById(R.id.card_list_item_container);
         parentOfCardListItem.addView(cardListItem);
-
     }
 
     private void initDeckInfo() {
@@ -90,19 +143,19 @@ public class DeckPracticeActivity extends AppCompatActivity {
             case R.id.action_undo:
                 undo();
                 break;
-            case R.id.action_change_card:
-                changeCard();
+            case R.id.action_edit_card:
+                editCard();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void changeCard() {
+    private void editCard() {
         //changing card
     }
 
     private void undo() {
-        //undoing
+        cardListItem.setCard(controller.undo());
     }
 
 

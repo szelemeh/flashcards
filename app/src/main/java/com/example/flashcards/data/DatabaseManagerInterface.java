@@ -16,7 +16,7 @@ public interface DatabaseManagerInterface {
 
 
     void addCard(Card newCard);
-    void updateCardContent(Card changedCard);
+    void updateCard(Card changedCard);
     void deleteCard(Card card);
 
     void getCard(int cardId);

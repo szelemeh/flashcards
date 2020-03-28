@@ -1,11 +1,11 @@
-package com.example.flashcards;
+package com.example.flashcards.business;
 
 import com.example.flashcards.data.entities.Card;
 
 import java.util.Date;
 
 public final class SpacedRepetitionHelper {
-    public static Date calculateNextRepetitionDate(Card card, int quality) {
+    public static Card calculateNextRepetitionDate(Card card, int quality, Date replyTimeStamp) {
 
         if (quality < 0 || quality > 5) {
             throw new IllegalArgumentException("Argument quality should be from 1 to 5.");
@@ -37,9 +37,15 @@ public final class SpacedRepetitionHelper {
 
         // next practice
         int millisecondsInDay = 60 * 60 * 24 * 1000;
-        long now = System.currentTimeMillis();
+        long now = replyTimeStamp.getTime();
         long nextPracticeDate = now + millisecondsInDay*interval;
 
-        return new Date(nextPracticeDate);
+        Card resultCard = new Card(card.frontSide, card.backSide,
+                card.getDeckId(), new Date(nextPracticeDate));
+        resultCard.setId(card.getId());
+        resultCard.setEasiness(easiness);
+        resultCard.setRepetitions(repetitions);
+
+        return resultCard;
     }
 }
