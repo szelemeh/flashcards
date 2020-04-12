@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.RelativeLayout;
@@ -59,6 +60,9 @@ public class CardListItem extends RelativeLayout {
     }
 
     public void setCard(Card card) {
+        if(card == null) {
+            externalParent.setVisibility(View.GONE);
+        }
         this.card = card;
         refresh();
     }
@@ -98,8 +102,9 @@ public class CardListItem extends RelativeLayout {
     }
 
     private void updateCardContent() {
+        if(card == null) return;
         if (isFront) {
-            content.setText(card.frontSide);
+            content.setText(card.frontSide +"\n"+ card.getDateTimeReady().toString());
         }
         else {
             content.setText(card.backSide);

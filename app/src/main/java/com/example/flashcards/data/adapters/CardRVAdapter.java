@@ -11,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flashcards.R;
-import com.example.flashcards.activities.CardAddActivity;
-import com.example.flashcards.activities.DeckViewActivity;
+import com.example.flashcards.ui.CardAddActivity;
+import com.example.flashcards.ui.DeckViewActivity;
 import com.example.flashcards.data.DatabaseManager;
 import com.example.flashcards.data.entities.Card;
 import com.example.flashcards.views.CardListItem;

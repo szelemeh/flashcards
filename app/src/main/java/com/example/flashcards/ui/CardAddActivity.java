@@ -1,4 +1,4 @@
-package com.example.flashcards.activities;
+package com.example.flashcards.ui;
 
 import android.content.DialogInterface;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.example.flashcards.activities;
+package com.example.flashcards.ui;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -26,6 +26,7 @@ import com.example.flashcards.SwipeToDeleteCallback;
 import com.example.flashcards.data.DatabaseManager;
 import com.example.flashcards.data.adapters.CardRVAdapter;
 import com.example.flashcards.data.adapters.decorators.MarginItemDecoration;
+import com.example.flashcards.ui.practice.DeckPracticeActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class DeckViewActivity extends AppCompatActivity {

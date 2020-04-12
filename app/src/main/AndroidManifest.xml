@@ -10,13 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-        <activity android:name=".activities.DeckPracticeActivity"></activity>
-        <activity android:name=".activities.CardAddActivity" />
-        <activity android:name=".activities.DeckViewActivity" />
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".ui.practice.DeckPracticeActivity" />
+        <activity android:name=".ui.CardAddActivity" />
+        <activity android:name=".ui.DeckViewActivity" />
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

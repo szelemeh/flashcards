@@ -24,7 +24,7 @@ public class PracticeDataManager implements BackgroundTaskResponse {
         BackgroundCardTransaction bgTask = new BackgroundCardTransaction(controller.getContext());
         bgTask.delegate = this;
         bgTask.execute(BackgroundTaskDetails.fetchingCardsInDeck(
-                OperationType.FETCH_ALL_CARDS_IN_DECK_FOR_PRACTICE, controller.getDeckId()));
+                OperationType.FETCH_CARDS_FOR_PRACTICE, controller.getDeckId()));
     }
 
 

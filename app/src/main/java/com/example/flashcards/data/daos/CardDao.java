@@ -51,8 +51,6 @@ public interface CardDao {
             "FROM cards c\n" +
             "WHERE deck_id = :deckId AND\n" +
             "    date_time_ready <= date('now')" +
-            "ORDER BY datetime(date_time_ready) DESC")
+            "ORDER BY datetime(date_time_ready) ASC")
     List<Card> getCardsForPractice(int deckId);
 }
-
-// TODO: 01-Nov-19 add query that selects cards by the order of date and time for using it with practice activity

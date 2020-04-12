@@ -1,4 +1,4 @@
-package com.example.flashcards.activities;
+package com.example.flashcards.ui.practice;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,11 +6,13 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.flashcards.AlertUser;
 import com.example.flashcards.R;
@@ -19,12 +21,9 @@ import com.example.flashcards.data.entities.Card;
 import com.example.flashcards.views.CardListItem;
 
 public class DeckPracticeActivity extends AppCompatActivity {
-    private Context thisContext = this;
-
     private int deckId;
     private String deckTitle;
     private Toolbar toolbar;
-    private RelativeLayout parentOfCardListItem;
     private CardListItem cardListItem;
     private PracticeController controller;
 
@@ -53,54 +52,53 @@ public class DeckPracticeActivity extends AppCompatActivity {
             }
         },30);
 
-        Button lowQualityReply = findViewById(R.id.buttom_low_quality_reply);
-        Button mediumQualityReply = findViewById(R.id.buttom_medium_quality_reply);
-        Button highQualityReply = findViewById(R.id.buttom_high_quality_reply);
+        Button lowButton = findViewById(R.id.buttom_low_quality_reply);
+        Button mediumButton = findViewById(R.id.buttom_medium_quality_reply);
+        Button highButton = findViewById(R.id.buttom_high_quality_reply);
 
-        lowQualityReply.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Card newCard = controller.lowQualityReply();
+                ReplyQuality q = getReplyQuality(v.getId());
+                Card newCard = controller.reply(q);
                 if(newCard == null){
-                    controller.finishPractice();
-                    AlertUser.makeToast(thisContext, "Finished Practice");
+                    finishPractice();
                 }
                 cardListItem.setCard(newCard);
             }
-        });
+        };
 
-        mediumQualityReply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Card newCard = controller.mediumQualityReply();
-                if(newCard == null){
-                    controller.finishPractice();
-                    AlertUser.makeToast(thisContext, "Finished Practice");
-                }
-                cardListItem.setCard(newCard);
+        lowButton.setOnClickListener(listener);
+        mediumButton.setOnClickListener(listener);
+        highButton.setOnClickListener(listener);
+    }
 
-            }
-        });
+    private void finishPractice() {
+        controller.finishPractice();
 
-        highQualityReply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Card newCard = controller.highQualityReply();
-                if(newCard == null){
-                    controller.finishPractice();
-                    AlertUser.makeToast(thisContext, "Finished Practice");
-                }
-                cardListItem.setCard(newCard);
+        findViewById(R.id.finish_practice_textView).setVisibility(View.VISIBLE);
+        findViewById(R.id.container_practice).setVisibility(View.GONE);
 
-            }
-        });
+    }
+
+    private ReplyQuality getReplyQuality(int id) {
+        switch(id) {
+            case R.id.buttom_low_quality_reply:
+                return ReplyQuality.LOW;
+            case R.id.buttom_medium_quality_reply:
+                return ReplyQuality.MEDIUM;
+            case R.id.buttom_high_quality_reply:
+                return ReplyQuality.HIGH;
+            default:
+                return null;
+        }
     }
 
     private void initCardListItem() {
         cardListItem = new CardListItem(this);
         cardListItem.resize(350, 400);
-        parentOfCardListItem = findViewById(R.id.card_list_item_container);
-        parentOfCardListItem.addView(cardListItem);
+        RelativeLayout parent = findViewById(R.id.card_list_item_container);
+        parent.addView(cardListItem);
     }
 
     private void initDeckInfo() {
@@ -127,6 +125,7 @@ public class DeckPracticeActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
+        controller.finishPractice();
         onBackPressed();
         return true;
     }
@@ -157,6 +156,5 @@ public class DeckPracticeActivity extends AppCompatActivity {
     private void undo() {
         cardListItem.setCard(controller.undo());
     }
-
 
 }

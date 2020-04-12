@@ -1,31 +1,25 @@
 package com.example.flashcards.business;
 
 import android.content.Context;
-import android.view.View;
-
 import com.example.flashcards.data.PracticeDataManager;
 import com.example.flashcards.data.entities.Card;
+import com.example.flashcards.ui.practice.ReplyQuality;
 
 import java.util.Date;
 import java.util.Stack;
 
 public class PracticeController {
-    private static final int LOW_QUALITY = 1;
-    private static final int MEDIUM_QUALITY = 3;
-    private static final int HIGH_QUALITY = 5;
 
     private PracticeDataManager dm;
 
     private int deckId;
     private Context context;
     private Stack<Card> cardStack;
-    private boolean sizeCheck = true;
+    private boolean sizeCheck = false;
 
     private Card cardCurrent;
     private Card cardLastOld;
     private Card cardLastNew;
-
-
 
     public PracticeController(Context context, int deckId) {
         this.context = context;
@@ -66,6 +60,26 @@ public class PracticeController {
         return cardCurrent;
     }
 
+    public Card reply(ReplyQuality q) {
+        saveLast();
+
+        cardLastOld = cardCurrent;
+
+        if(cardCurrent == null)
+            return null;
+
+        cardLastNew = SpacedRepetitionHelper.calculateNextRepetitionDate(
+                cardCurrent, q, new Date());
+
+        nextCard();
+
+        return cardCurrent;
+    }
+
+    private void saveLast() {
+        if(cardLastNew != null)dm.updateCard(cardLastNew);
+    }
+
     private void nextCard() {
         if(sizeCheck) {
             if(cardStack.size() < 3){
@@ -79,45 +93,5 @@ public class PracticeController {
 
     public void finishPractice() {
         saveLast();
-    }
-
-    public Card lowQualityReply() {
-        saveLast();
-
-        cardLastOld = cardCurrent;
-        cardLastNew = SpacedRepetitionHelper.calculateNextRepetitionDate(
-                cardCurrent, LOW_QUALITY, new Date());
-
-        nextCard();
-
-        return cardCurrent;
-    }
-
-    private void saveLast() {
-        if(cardLastNew != null)dm.updateCard(cardLastNew);
-    }
-
-    public Card mediumQualityReply() {
-        saveLast();
-
-        cardLastOld = cardCurrent;
-        cardLastNew = SpacedRepetitionHelper.calculateNextRepetitionDate(
-                cardCurrent, MEDIUM_QUALITY, new Date());
-
-        nextCard();
-
-        return cardCurrent;
-    }
-
-    public Card highQualityReply() {
-        saveLast();
-
-        cardLastOld = cardCurrent;
-        cardLastNew = SpacedRepetitionHelper.calculateNextRepetitionDate(
-                cardCurrent, HIGH_QUALITY, new Date());
-
-        nextCard();
-
-        return cardCurrent;
     }
 }

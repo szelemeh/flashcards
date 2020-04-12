@@ -1,4 +1,4 @@
-package com.example.flashcards.activities;
+package com.example.flashcards.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -14,17 +14,13 @@ import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.example.flashcards.MockData;
 import com.example.flashcards.data.DatabaseManager;
 import com.example.flashcards.R;
 import com.example.flashcards.data.adapters.DeckRVAdapter;
 import com.example.flashcards.data.adapters.decorators.MarginItemDecoration;
-import com.example.flashcards.data.entities.Deck;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {

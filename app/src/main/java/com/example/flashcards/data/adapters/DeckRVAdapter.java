@@ -5,14 +5,12 @@ import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flashcards.AlertUser;
-import com.example.flashcards.activities.DeckViewActivity;
-import com.example.flashcards.data.entities.Card;
+import com.example.flashcards.ui.DeckViewActivity;
 import com.example.flashcards.data.entities.Deck;
 import com.example.flashcards.views.DeckListItem;
 

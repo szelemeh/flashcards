@@ -33,4 +33,5 @@
     <string name="discard_changes">Discard changes</string>
     <string name="empty_deck_rv">This list is empty. Create a new deck!</string>
     <string name="empty_card_rv">It\'s empty!</string>
+    <string name="finished_practice_label">No more cards. Good job!</string>
 </resources>
